@@ -1,6 +1,3 @@
-from nltk.data import retrieve
-
-
 class FoodTariff:
 
     def __init__(self, food_tariff: str, people_count: int):

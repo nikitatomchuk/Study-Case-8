@@ -4,11 +4,8 @@ from TariffTypes.RoomType import RoomType
 
 class Room:
 
-    def __init__(self, room_type: RoomType, room_tariff: RoomTariff,
-                 room_number: int, days_count: int, max_people_count: int):
-
+    def __init__(self, room_type: RoomType, room_tariff: RoomTariff, room_number: int, max_people_count: int):
         self.__room_number = room_number
-        self.__days_count = days_count
         self.__max_people_count = max_people_count
         self.__room_price_per_day = room_tariff.get_price_scale() * room_type.get_size_price_per_day()
 
@@ -16,7 +13,7 @@ class Room:
         return self.__room_number
 
     def get_room_price(self):
-        return self.__room_price_per_day * self.__days_count
+        return self.__room_price_per_day
 
     def get_max_people_count(self):
         return self.__max_people_count
