@@ -6,10 +6,10 @@ from datetime import date
 
 class RoomDataBase:
 
-    def __init__(self, rooms_data_path: str):
+    def __init__(self, rooms_data_path: str = "data/rooms_data.txt"):
         self.__free_rooms = []
         self.__all_rooms = []
-        with open("rooms_data.txt", encoding='utf-8') as lines:
+        with open(rooms_data_path, encoding='utf-8') as lines:
             for line in lines:
                 room_data = line.split()
                 room_number = int(room_data[0])
