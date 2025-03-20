@@ -13,5 +13,5 @@ class Reports:
         return self.__reports.values()
 
     def print_all_reports(self):
-        for report in self.__reports:
+        for report in self.get_all_reports():
             print(report)
