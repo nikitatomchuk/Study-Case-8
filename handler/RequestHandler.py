@@ -8,12 +8,15 @@ class RequestHandler:
         self.__full_name = request[1:4]
         self.__booking_date = "-".join(request[0].split(".")[::-1])
         self.__booked_date = "-".join(request[5].split(".")[::-1])
-        self.__people_count = request[4]
-        self.__days_count = request[6]
-        self.__costs_by_one = request[7].strip("\n")
+        self.__people_count = int(request[4])
+        self.__days_count = int(request[6])
+        self.__costs_by_one = int(request[7].strip("\n"))
 
     def __repr__(self):
         return str(self.__full_request)
+
+    def get_full_available_costs(self):
+        return self.__costs_by_one * self.__days_count
 
     def get_full_name(self):
         return self.__full_name
