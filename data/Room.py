@@ -11,6 +11,9 @@ class Room:
         self.__max_people_count = max_people_count
         self.__room_price_per_day = room_tariff.get_price_scale() * room_type.get_size_price_per_day()
 
+    def __repr__(self):
+        return str([self.__room_number, self.__max_people_count, self.__room_price_per_day])
+
     def get_free_date(self):
         return self.__free_date
 
