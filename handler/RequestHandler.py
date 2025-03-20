@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 
 class RequestHandler:
@@ -24,8 +24,11 @@ class RequestHandler:
     def get_booking_date(self):
         return date.fromisoformat(self.__booking_date)
 
-    def get_booked_date(self):
+    def get_book_start_date(self):
         return date.fromisoformat(self.__booked_date)
+
+    def get_book_end_data(self):
+        return self.get_book_start_date() + timedelta(days = self.__days_count)
 
     def get_people_count(self):
         return self.__people_count
