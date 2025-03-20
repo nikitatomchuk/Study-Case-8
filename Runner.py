@@ -8,7 +8,7 @@ def main():
     with open("handler/requests_data.txt", encoding='utf-8') as requests:
         for request in requests.readlines():
             request_data = RequestHandler(request.split())
-            print(request_data)
+            print(request_data, request_data.get_full_available_costs())
 
 if __name__ == "__main__":
     main()
