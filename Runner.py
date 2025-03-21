@@ -16,30 +16,20 @@ def main():
         room_number = room_searcher.search_suitable_room(report)
         if room_number == 0:
             print("Client has gone...")
-        else:
-            print(room_number, room_data_base.get_room_by_number(room_number).get_price())
 
         for request in requests.readlines():
             request_data = RequestHandler(request.split())
 
             if request_data.get_booking_date() == previous_request_data.get_booking_date():
                 room_searcher = RoomSearcher(request_data, room_data_base)
-                room_number = room_searcher.search_suitable_room(report)
+                room_searcher.search_suitable_room(report)
                 previous_request_data = request_data
-                if room_number == 0:
-                    print("Client has gone...")
-                    continue
-                print(room_number, room_data_base.get_room_by_number(room_number).get_price())
             else:
                 reports.add(report)
                 report = Report(room_data_base, request_data.get_booking_date())
                 room_searcher = RoomSearcher(request_data, room_data_base)
-                room_number = room_searcher.search_suitable_room(report)
+                room_searcher.search_suitable_room(report)
                 previous_request_data = request_data
-                if room_number == 0:
-                    print("Client has gone...")
-                    continue
-                print(room_number, room_data_base.get_room_by_number(room_number).get_price())
 
         reports.add(report)
         reports.print_all_reports()
