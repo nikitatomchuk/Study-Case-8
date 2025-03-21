@@ -6,6 +6,7 @@ from datetime import date
 class Room:
 
     def __init__(self, room_type: RoomType, room_tariff: RoomTariff, room_number: int, max_people_count: int):
+        self.__room_type = room_type.__repr__()
         self.__busy_dates = {}
         self.__room_number = room_number
         self.__max_people_count = max_people_count
@@ -14,6 +15,9 @@ class Room:
 
     def __repr__(self):
         return str([self.__room_number, self.__max_people_count, self.__room_price_per_day])
+
+    def get_type(self):
+        return self.__room_type
 
     def get_busy_dates(self):
         return self.__busy_dates
