@@ -5,7 +5,7 @@ class RequestHandler:
 
     def __init__(self, request: list[str]):
         self.__full_request = request
-        self.__full_name = request[1:4]
+        self.__full_name = request[1] + " " + request[2] + " " + request[3]
         self.__booking_date = "-".join(request[0].split(".")[::-1])
         self.__booked_date = "-".join(request[5].split(".")[::-1])
         self.__people_count = int(request[4])
