@@ -11,9 +11,7 @@ class FoodTariff:
             elif self.__food_tariff == "full":
                 self.__food_price_per_day = 1000 * people_count
             else:
-                raise TypeError
-        except TypeError:
-            print("Wrong operation. No such food tariff.")
+                print("Wrong operation. No such food tariff.")
 
     def __repr__(self):
         return self.__food_tariff
