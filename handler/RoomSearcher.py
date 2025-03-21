@@ -1,3 +1,4 @@
+from datetime import date
 from random import randint
 from TariffTypes.FoodTariff import FoodTariff
 from TariffTypes.RoomTariff import RoomTariff
@@ -6,6 +7,10 @@ from data import Report
 from data.Room import Room
 from data.RoomsDataBase import RoomDataBase
 from handler.RequestHandler import RequestHandler
+
+
+def format_date(some_date: date):
+    return ".".join(some_date.isoformat().split("-")[::-1])
 
 
 def answer_is_positive():
@@ -38,6 +43,7 @@ class RoomSearcher:
 
         if self.__request.get_full_available_costs() < self.__min_room_price:
             self.__suitable_room = 0
+            self.print_failed_booking()
             return 0
 
         extra = 0
@@ -59,20 +65,41 @@ class RoomSearcher:
                             if self.__request.get_full_available_costs() - self.__min_possible_price >= total_food_price:
                                 report.change_revenue(self.__min_possible_price + total_food_price)
                                 self.__food_tariff = food_tariff
+                                self.print_success_booking()
+                                report.change_busy_rooms_count()
+                                report.change_free_rooms_count()
                                 return self.__suitable_room
                     else:
                         report.change_alternative_costs(self.__request.get_full_available_costs())
+                        print("Client relay from booking.", end = " ")
+                        self.print_failed_booking()
                         return 0
                 else:
                     self.__room_data_base.change_room_busy_date(self.__suitable_room,
                                                                 self.__request.get_book_start_date(),
                                                                 self.__request.get_book_end_data())
                     report.change_revenue(self.__max_possible_price)
+                    self.print_success_booking()
+                    report.change_busy_rooms_count(self.__suitable_room)
+                    report.change_free_rooms_count()
                     return self.__suitable_room
             else:
                 extra += 1
         report.change_alternative_costs(self.__request.get_full_available_costs())
+        self.print_failed_booking()
         return 0
+
+    def print_success_booking(self):
+        print(f"{format_date(self.__request.get_booking_date())}: {self.__request.get_full_name()} " +
+              f"booked room №{self.__suitable_room} from {format_date(self.__request.get_book_start_date())} to " +
+              f"{format_date(self.__request.get_book_end_data())} for {self.__request.get_people_count()} people " +
+              f"with food tariff: '{self.__food_tariff}'. Sum paid: {self.__max_possible_price}.")
+
+    def print_failed_booking(self):
+        print(f"{format_date(self.__request.get_booking_date())}: {self.__request.get_full_name()} " +
+              f"couldn't book a room from {format_date(self.__request.get_book_start_date())} to " +
+              f"{format_date(self.__request.get_book_end_data())} for {self.__request.get_people_count()} people. " +
+              f"Potential revenue lost: {self.__request.get_full_available_costs()}.")
 
     def __compare_people_count(self, days_count, people_count, extra, room):
         if room.get_max_people_count() == people_count + extra:
