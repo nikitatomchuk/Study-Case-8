@@ -343,7 +343,7 @@ class RoomSearcher:
         return 0
 
     def print_success_booking(self):
-        print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} {self.__request.get_full_name()} " +
+        print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} '{self.__request.get_full_name()}' " +
               f"{ru.SUCCESS_BOOK} {ru.ROOM_NUMBER}{self.__suitable_room} {ru.FROM} "
               f"{format_date(self.__request.get_book_start_date())} {ru.TO} " +
               f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS} " +
@@ -351,12 +351,12 @@ class RoomSearcher:
 
     def print_failed_booking(self, answer_is_negative: bool = False):
         if answer_is_negative:
-            print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} {self.__request.get_full_name()} " +
-                  f"{ru.FAIL} {format_date(self.__request.get_book_start_date())} {ru.TO} " +
+            print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} '{self.__request.get_full_name()}' " +
+                  f"{ru.FAIL}{self.__suitable_room} {ru.FROM} {format_date(self.__request.get_book_start_date())} {ru.TO} " +
                   f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS}. " +
                   f"{ru.REVENUE} {self.__request.get_full_available_costs()} {ru.CURRENCY}")
         else:
-            print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} {self.__request.get_full_name()} " +
+            print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} '{self.__request.get_full_name()}' " +
                   f"{ru.CANNOT_BOOK} {ru.FROM} {format_date(self.__request.get_book_start_date())} {ru.TO} " +
                   f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS}. " +
                   f"{ru.LOST_REVENUE} {self.__request.get_full_available_costs()} {ru.CURRENCY}")
