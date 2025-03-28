@@ -27,6 +27,7 @@ def main():
                 previous_request_data = request_data
 
         reports.add(report)
+        print()
         reports.print_all_reports()
 
 

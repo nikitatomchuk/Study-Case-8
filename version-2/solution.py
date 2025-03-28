@@ -188,7 +188,7 @@ class Report:
                 f"--{ru.DAILY_INCOME}: {self.__alternative_costs}\n" +
                 f"--{ru.ALTERNATIVE_COSTS}: {self.__revenue}\n\n" +
                 f"{ru.REPORT_END}\n" +
-                "-" * 30)
+                "-" * 100)
 
     def get_report_date(self) -> str:
         return ".".join(self.__report_date.__str__().split("-")[::-1])
@@ -202,11 +202,11 @@ class Report:
     def change_free_rooms_count(self):
         self.__free_rooms_count -= 1
 
-    def get_busy_room_types_percent(self) -> dict:
-        busy_room_types_percent = {room_type: round(self.__busy_room_types[room_type][1]
+    def get_busy_room_types_percent(self) -> list:
+        busy_room_types_percent = [f'{room_type}: {round(self.__busy_room_types[room_type][1]
                                               / (self.__busy_room_types[room_type][1]
-                                                 + self.__busy_room_types[room_type][0]), 2)
-                                   for room_type in self.__busy_room_types.keys()}
+                                                 + self.__busy_room_types[room_type][0]), 2)}%'
+                                   for room_type in self.__busy_room_types.keys()]
         return busy_room_types_percent
 
     def get_busy_hotel_percent(self) -> float:
@@ -231,6 +231,7 @@ class Reports:
         return list(self.__reports.values())
 
     def print_all_reports(self):
+        print("-" * 100)
         for report in self.get_all_reports():
             print(report)
 
@@ -319,7 +320,7 @@ class RoomSearcher:
                             if self.__request.get_full_available_costs() - self.__min_possible_price >= total_food_price:
                                 report.change_revenue(self.__min_possible_price + total_food_price)
                                 self.__food_tariff = food_tariff
-                                self.print_success_booking()
+                                self.print_success_booking(True)
                                 report.change_busy_rooms_count(self.__suitable_room)
                                 report.change_free_rooms_count()
                                 return self.__suitable_room
@@ -342,12 +343,20 @@ class RoomSearcher:
         self.print_failed_booking()
         return 0
 
-    def print_success_booking(self):
-        print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} '{self.__request.get_full_name()}' " +
-              f"{ru.SUCCESS_BOOK} {ru.ROOM_NUMBER}{self.__suitable_room} {ru.FROM} "
-              f"{format_date(self.__request.get_book_start_date())} {ru.TO} " +
-              f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS} " +
-              f"{ru.FOOD_TARIFF} '{self.__food_tariff}'. {ru.REVENUE} {self.__max_possible_price} {ru.CURRENCY}")
+    def print_success_booking(self, discount: bool = False):
+        if discount:
+            print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} '{self.__request.get_full_name()}' " +
+                  f"{ru.DISCOUNT_BOOK} {ru.ROOM_NUMBER}{self.__suitable_room} {ru.FROM} "
+                  f"{format_date(self.__request.get_book_start_date())} {ru.TO} " +
+                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS} " +
+                  f"{ru.FOOD_TARIFF} '{self.__food_tariff}'. {ru.REVENUE} {self.__max_possible_price} {ru.CURRENCY}")
+        else:
+            print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} '{self.__request.get_full_name()}' " +
+                  f"{ru.SUCCESS_BOOK} {ru.ROOM_NUMBER}{self.__suitable_room} {ru.FROM} "
+                  f"{format_date(self.__request.get_book_start_date())} {ru.TO} " +
+                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS} " +
+                  f"{ru.FOOD_TARIFF} '{self.__food_tariff}'. {ru.REVENUE} {self.__max_possible_price} {ru.CURRENCY}")
+        print("-" * 180)
 
     def print_failed_booking(self, answer_is_negative: bool = False):
         if answer_is_negative:
@@ -360,6 +369,7 @@ class RoomSearcher:
                   f"{ru.CANNOT_BOOK} {ru.FROM} {format_date(self.__request.get_book_start_date())} {ru.TO} " +
                   f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS}. " +
                   f"{ru.LOST_REVENUE} {self.__request.get_full_available_costs()} {ru.CURRENCY}")
+        print("-" * 180)
 
     def __compare_people_count(self, days_count, people_count, extra, room):
         if room.get_max_people_count() == people_count + extra:
