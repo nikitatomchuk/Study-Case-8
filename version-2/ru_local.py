@@ -13,7 +13,6 @@ class RoomTariffs:
     APARTMENT_RATIO = 1.5
 
 
-
 class RoomTypes:
     ONE_PERSON = "одноместный"
     TWO_PERSON = "двухместный"
