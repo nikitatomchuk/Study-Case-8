@@ -2,8 +2,8 @@ import ru_local as ru
 
 
 class Files:
-    DATA_FILE_NAME = "version-2/datafiles/rooms_data.txt"
-    REQUESTS_FILE_NAME = "version-2/datafiles/requests_data.txt"
+    DATA_FILE_NAME = "datafiles/rooms_data.txt"
+    REQUESTS_FILE_NAME = "datafiles/requests_data.txt"
 
 
 class RoomTariffs:

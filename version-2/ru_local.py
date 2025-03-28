@@ -1,6 +1,6 @@
 STANDARD = "стандарт"
 STANDARD_UP = "стандарт_улучшенный"
-APARTMENT = "аппартамент"
+APARTMENT = "апартамент"
 
 ONE_PERSON = "одноместный"
 TWO_PERSON = "двухместный"
@@ -20,6 +20,7 @@ DAILY_INCOME = 'Полученный доход за день'
 ALTERNATIVE_COSTS = 'Упущенный доход'
 REPORT_END = 'Конец отчета.'
 
+NO_TARIFF = 'Такого тарифа нет...'
 CLIENT = 'Клиент'
 FAIL = 'отказался от бронирования'
 REQUEST = 'Для заявки'
