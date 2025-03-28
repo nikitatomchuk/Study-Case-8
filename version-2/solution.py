@@ -343,22 +343,23 @@ class RoomSearcher:
         return 0
 
     def print_success_booking(self):
-        print(f"{format_date(self.__request.get_booking_date())}: {self.__request.get_full_name()} " +
-              f"booked room №{self.__suitable_room} from {format_date(self.__request.get_book_start_date())} to " +
-              f"{format_date(self.__request.get_book_end_data())} for {self.__request.get_people_count()} people " +
-              f"with food tariff: '{self.__food_tariff}'. Revenue: {self.__max_possible_price}.")
+        print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} {self.__request.get_full_name()} " +
+              f"{ru.SUCCESS_BOOK} {ru.ROOM_NUMBER}{self.__suitable_room} {ru.FROM} "
+              f"{format_date(self.__request.get_book_start_date())} {ru.TO} " +
+              f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS} " +
+              f"{ru.FOOD_TARIFF} '{self.__food_tariff}'. {ru.REVENUE} {self.__max_possible_price} {ru.CURRENCY}")
 
     def print_failed_booking(self, answer_is_negative: bool = False):
         if answer_is_negative:
-            print(f"{format_date(self.__request.get_booking_date())}: {self.__request.get_full_name()} " +
-                  f"refused to book a room from {format_date(self.__request.get_book_start_date())} to " +
-                  f"{format_date(self.__request.get_book_end_data())} for {self.__request.get_people_count()} people. " +
-                  f"Potential revenue lost: {self.__request.get_full_available_costs()}.")
+            print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} {self.__request.get_full_name()} " +
+                  f"{ru.FAIL} {format_date(self.__request.get_book_start_date())} {ru.TO} " +
+                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS}. " +
+                  f"{ru.REVENUE} {self.__request.get_full_available_costs()} {ru.CURRENCY}")
         else:
-            print(f"{format_date(self.__request.get_booking_date())}: {self.__request.get_full_name()} " +
-                  f"was unable to book a room from {format_date(self.__request.get_book_start_date())} to " +
-                  f"{format_date(self.__request.get_book_end_data())} for {self.__request.get_people_count()} people. " +
-                  f"Potential revenue lost: {self.__request.get_full_available_costs()}.")
+            print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} {self.__request.get_full_name()} " +
+                  f"{ru.CANNOT_BOOK} {ru.FROM} {format_date(self.__request.get_book_start_date())} {ru.TO} " +
+                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS}. " +
+                  f"{ru.LOST_REVENUE} {self.__request.get_full_available_costs()} {ru.CURRENCY}")
 
     def __compare_people_count(self, days_count, people_count, extra, room):
         if room.get_max_people_count() == people_count + extra:
