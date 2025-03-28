@@ -56,7 +56,7 @@ class RoomSearcher:
                     if answer_is_positive():
                         for food_tariff in "full", "breakfast", "no":
                             total_food_price = FoodTariff(food_tariff,
-                                                          people_count).get_food_price_per_day() * days_count
+                                                          people_count).get_price_per_day() * days_count
 
                             self.__room_data_base.change_room_busy_date(self.__suitable_room,
                                                                         self.__request.get_book_start_date(),
@@ -113,7 +113,7 @@ class RoomSearcher:
                 else:
                     final_room_price = room.get_discount_price()
 
-                room_prices.update({food_tariff: (final_room_price + food.get_food_price_per_day()) * days_count})
+                room_prices.update({food_tariff: (final_room_price + food.get_price_per_day()) * days_count})
 
             for food_tariff in room_prices.keys():
                 price = room_prices[food_tariff]

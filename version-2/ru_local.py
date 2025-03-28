@@ -1,35 +1,33 @@
-class Files:
-    DATA_FILE_NAME = "version-2/datafiles/rooms_data.txt"
-    REQUESTS_FILE_NAME = "version-2/datafiles/requests_data.txt"
+STANDARD = "стандарт"
+STANDARD_UP = "стандарт_улучшенный"
+APARTMENT = "аппартамент"
 
+ONE_PERSON = "одноместный"
+TWO_PERSON = "двухместный"
+HALF_LUXE = "полулюкс"
+LUXE = "люкс"
 
-class RoomTariffs:
-    STANDARD = "стандарт"
-    STANDARD_UP = "стандарт_улучшенный"
-    APARTMENT = "аппартамент"
+NO_FOOD = "без питания"
+BREAKFAST = "завтрак"
+FULL = "полупансион"
 
-    STANDARD_RATIO = 1
-    STANDARD_UP_RATIO = 1.2
-    APARTMENT_RATIO = 1.5
+REPORT_DATE = 'Дата отчета'
+BUSY_ROOMS = 'Количество занятых номеров'
+FREE_ROOMS = 'Количетво свободных номеров'
+WORKLOAD_ROOMS = 'Процент загруженности отдельных категорий номеров:'
+WORKLOAD_HOTEL = 'Процент загруженности гостиницы в целом:'
+DAILY_INCOME = 'Полученный доход за день'
+ALTERNATIVE_COSTS = 'Упущенный доход'
+REPORT_END = 'Конец отчета.'
 
-
-class RoomTypes:
-    ONE_PERSON = "одноместный"
-    TWO_PERSON = "двухместный"
-    HALF_LUXE = "полулюкс"
-    LUXE = "люкс"
-
-    ONE_PERSON_PRICE = 2900
-    TWO_PERSON_PRICE = 2300
-    HALF_LUXE_PRICE = 3200
-    LUXE_PRICE = 4100
-
-
-class FoodTariffs:
-    NO_FOOD = "без питания"
-    BREAKFAST = "завтрак"
-    FULL = "полупансион"
-
-    NO_FOOD_PRICE = 0
-    BREAKFAST_PRICE = 280
-    FULL_PRICE = 1000
+CLIENT = 'Клиент'
+FAIL = 'отказался от бронирования'
+REQUEST = 'Для заявки'
+ON = 'на'
+PPL_DATE = 'человек на дату'
+NO_FREE_ROOMS = 'свободных номеров нет'
+CURRENCY = 'руб.'
+NUMBER = 'Номер'
+SUCCESS_BOOK = 'успешно забронирован с'
+DAY_FOR = 'дней для'
+GUESTS = 'гостей'

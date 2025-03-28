@@ -36,10 +36,3 @@ class RoomDataBase:
                 self.__free_rooms.append(room)
 
         return self.__free_rooms
-
-    def get_free_room_by_number(self, room_number: int):
-        for room in self.__free_rooms:
-            if room.get_number() == room_number:
-                return room
-
-        print("No rooms with such number are free.")
