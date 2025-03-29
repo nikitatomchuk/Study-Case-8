@@ -207,7 +207,7 @@ class Report:
                                               / (self.__busy_room_types[room_type][1]
                                                  + self.__busy_room_types[room_type][0]), 2)}%'
                                    for room_type in self.__busy_room_types.keys()]
-        return busy_room_types_percent
+        return ', '.join(busy_room_types_percent)
 
     def get_busy_hotel_percent(self) -> float:
         return round(self.__busy_rooms_count / self.__free_rooms_count, 2)
