@@ -6,10 +6,19 @@ from constants import RoomTariffs, RoomTypes, FoodTariffs, Files
 
 
 def format_date(some_date: date):
+    """
+    This function helps present any date in a familiar format.
+    :param some_date: date
+    :return: string format of date
+    """
     return ".".join(some_date.isoformat().split("-")[::-1])
 
 
 def answer_is_positive():
+    """
+    This function realise a principe of 0,25% probabilities get approval
+    :return: True or False
+    """
     number = randint(1, 4)
     if number == 2:
         return False
@@ -17,7 +26,17 @@ def answer_is_positive():
 
 
 class FoodTariff:
+    """
+    This class calculates the cost with meals for all people
 
+    Attributes:
+        __food_tariff: The protected attribute responsible for the pricing plan
+        __price_per_day: The protected attribute responsible for calculate the day cost
+
+    Methods:
+        get_price_per_day: Allows you to get information about the cost of meals per day
+        __repr__: A magic method for string representation
+    """
     def __init__(self, food_tariff: str, people_count: int):
         self.__food_tariff = food_tariff
 
@@ -39,9 +58,20 @@ class FoodTariff:
 
 
 class RoomType:
+    """
+    This class calculates the cost with room type for all people
+
+    Attributes:
+        __r_type: The protected attribute responsible for room type
+        __price_per_day: The protected attribute responsible for calculate the day cost
+
+    Methods:
+        get_price_per_day: Allows you to get information about the cost of living per day
+        __repr__: A magic method for string representation
+    """
 
     def __init__(self, r_type: str, people_count: int):
-        self.__type = r_type
+        self.__r_type = r_type
 
         match r_type:
             case RoomTypes.ONE_PERSON:
@@ -56,15 +86,27 @@ class RoomType:
                 print(ru.NO_TARIFF)
 
     def __repr__(self) -> str:
-        return self.__type
+        return self.__r_type
 
     def get_price_per_day(self) -> int:
         return self.__price_per_day
 
 
 class RoomTariff:
+    """
+    This class calculates the cost with upgrade for all people
+
+    Attributes:
+        __tariff: The protected attribute responsible for upgrade level
+        __price_scale: The protected attribute responsible for calculate the margin ratio
+
+    Methods:
+        get_price_scale: Allows you to get information about the margin ratio
+        __repr__: A magic method for string representation
+    """
 
     def __init__(self, tariff: str):
+        self.__tariff = tariff
 
         match tariff:
             case RoomTariffs.STANDARD:
@@ -79,8 +121,33 @@ class RoomTariff:
     def get_price_scale(self) -> int:
         return self.__price_scale
 
+    def __repr__(self) -> str:
+        return self.__tariff
+
 
 class Room:
+    """
+    This class represented information about room
+
+    Attributes:
+        __type: The protected attribute responsible for room type
+        __busy_dates: The protected attribute responsible for busy dates for room
+        __number: The protected attribute responsible for room number
+        __max_people_count: The protected attribute responsible for maximum placement of people
+        __price_per_day: The protected attribute responsible for total room price
+        __discount_price: The protected attribute responsible for total room price with sale
+
+    Methods:
+        get_type: Allows get information about type
+        get_busy_dates: Allows get information about busy dates
+        set_busy_date: Setting busy day for this room
+        get_number: Allows get information about number
+        get_price: Allows get information about price
+        get_max_people_count: Allows get information about maximum placement of people
+        get_discount_price: Allows get information about discount price
+        is_free: Checking available of room for date period
+        __repr__: A magic method for string representation
+    """
 
     def __init__(self, room_type: RoomType, room_tariff: RoomTariff, room_number: int, max_people_count: int):
         self.__type = room_type.__repr__()
@@ -129,6 +196,19 @@ class Room:
 
 
 class RoomDataBase:
+    """
+    This class represents a database of hotel rooms
+
+    Attributes:
+    __free_rooms: Represent information of free rooms
+    __all_rooms: Represent information of all rooms in the database
+
+    Methods:
+    get_all_rooms: Returns a list of all rooms
+    change_room_busy_date: Changes the busy dates for a specified room
+    get_room_by_number: Retrieves a room by its number
+    get_free_rooms: Returns a list of free rooms for a specified date range
+    """
 
     def __init__(self, rooms_data_path: str = Files.DATA_FILE_NAME):
         self.__free_rooms = []
@@ -163,10 +243,37 @@ class RoomDataBase:
 
 
 def convert_to_room_type(room: Room):
+    """
+    This function convert to room type
+    :return: string information about room
+    """
     return room.get_type()
 
 
 class Report:
+    """
+    This class represents a report for the hotel room database
+
+    Attributes:
+    __report_date: The date the report is generated
+    __room_data_base: An instance of the RoomDataBase class
+    __busy_room_types: A dictionary of room types and their busy status
+    __busy_rooms_count: Count of currently busy rooms
+    __free_rooms_count: Count of currently free rooms
+    __busy_hotel_percent: Percentage of the hotel that is busy
+    __alternative_costs: Costs that can be considered as alternate income
+    __revenue: Total revenue from bookings
+
+    Methods:
+    __str__: Returns a string representation of the report
+    get_report_date: Formats and returns the report date
+    change_busy_rooms_count: Updates the count of busy rooms for a specific room number
+    change_free_rooms_count: Decrements the count of free rooms
+    get_busy_room_types_percent: Returns the percentage of busy rooms for each room type
+    get_busy_hotel_percent: Calculates and returns the busy percentage of the hotel
+    change_revenue: Increases the total revenue by a specified amount
+    change_alternative_costs: Increases the alternative costs by a specified amount
+    """
 
     def __init__(self, room_data_base: RoomDataBase, report_date: date):
         self.__report_date = report_date
@@ -221,7 +328,17 @@ class Report:
 
 
 class Reports:
+    """
+    This class manages multiple reports for the hotel room database
 
+    Attributes:
+    __reports: A dictionary to store reports with report dates as keys
+
+    Methods:
+    add: Adds a new report to the collection
+    get_all_reports: Returns a list of all reports
+    print_all_reports: Prints all reports in the collection
+    """
     def __init__(self):
         self.__reports = {}
 
@@ -238,6 +355,29 @@ class Reports:
 
 
 class RequestHandler:
+    """
+    This class processes booking requests for hotel rooms.
+
+    Attributes:
+    full_request: The complete booking request as a list of strings.
+    __full_name: The full name of the person making the request.
+    __booking_date: The date of booking in a formatted string.
+    __booked_date: The date when the booking starts, formatted.
+    __people_count: The number of people to accommodate.
+    __days_count: The number of days for the booking.
+    __costs_by_one: The cost per person or room.
+
+    Methods:
+    __repr__:  A magic method for string representation
+    get_costs_by_one: Returns the cost per person or room
+    get_full_avlble_costs: Returns the total costs for all days based on the per-person cost
+    get_full_name: Returns the full name of the person making the request.
+    get_booking_date: Returns the booking date as a date object.
+    get_book_start_date: Returns the starting date of the booking as a date object.
+    get_book_end_data: Calculates and returns the end date of the booking as a date object.
+    get_people_count: Returns the number of people to accommodate.
+    get_days_count: Returns the number of days for the booking.
+    """
 
     def __init__(self, request: list[str]):
         self.__full_request = request
@@ -277,6 +417,25 @@ class RequestHandler:
 
 
 class RoomSearcher:
+    """
+    This class searches for suitable hotel rooms based on booking requests
+
+    Attributes:
+    __min_room_price: The minimum price for a room based on room type and tariff
+    __suitable_room: The number of the suitable room found
+    __purchase_price: The final purchase price for the booking
+    __food_tariff: The food service option selected for the booking
+    __max_possible_price: The maximum price that meets the booking request
+    __min_possible_price: The minimum price set to a very high value initially
+    __request: The booking request to be processed
+    __room_data_base: The database containing information about rooms
+
+    Methods:
+    search_suitable_room: Looks for free rooms that match the booking criteria and checks for food options
+    print_success_booking: Outputs a success message with booking details, including discounts if applicable
+    print_failed_booking: Outputs a failure message with booking details
+    __compare_people_count: Compares the number of people with the room's capacity and determines suitable pricing
+    """
 
     def __init__(self, request: RequestHandler, room_data_base: RoomDataBase):
         self.__min_room_price = Room(RoomType(ru.ONE_PERSON, 1),
