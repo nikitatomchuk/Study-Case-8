@@ -202,7 +202,7 @@ class Report:
     def change_free_rooms_count(self):
         self.__free_rooms_count -= 1
 
-    def get_busy_room_types_percent(self) -> list:
+    def get_busy_room_types_percent(self) -> str:
         busy_room_types_percent = [f'{room_type}: {round(self.__busy_room_types[room_type][1]
                                               / (self.__busy_room_types[room_type][1]
                                                  + self.__busy_room_types[room_type][0]), 2)}%'
