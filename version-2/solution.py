@@ -1,7 +1,8 @@
 from datetime import date, timedelta
 from random import randint
-from constants import RoomTariffs, RoomTypes, FoodTariffs, Files
+
 import ru_local as ru
+from constants import RoomTariffs, RoomTypes, FoodTariffs, Files
 
 
 def format_date(some_date: date):
@@ -11,8 +12,8 @@ def format_date(some_date: date):
 def answer_is_positive():
     number = randint(1, 4)
     if number == 2:
-        return True
-    return False
+        return False
+    return True
 
 
 class FoodTariff:
@@ -39,10 +40,10 @@ class FoodTariff:
 
 class RoomType:
 
-    def __init__(self, type: str, people_count: int):
-        self.__type = type
+    def __init__(self, r_type: str, people_count: int):
+        self.__type = r_type
 
-        match type:
+        match r_type:
             case RoomTypes.ONE_PERSON:
                 self.__price_per_day = RoomTypes.ONE_PERSON_PRICE
             case RoomTypes.TWO_PERSON:
@@ -204,8 +205,8 @@ class Report:
 
     def get_busy_room_types_percent(self) -> str:
         busy_room_types_percent = [f'{room_type}: {round(self.__busy_room_types[room_type][1]
-                                              / (self.__busy_room_types[room_type][1]
-                                                 + self.__busy_room_types[room_type][0]), 2)}%'
+                                                         / (self.__busy_room_types[room_type][1]
+                                                            + self.__busy_room_types[room_type][0]), 2)}%'
                                    for room_type in self.__busy_room_types.keys()]
         return ', '.join(busy_room_types_percent)
 
@@ -253,7 +254,7 @@ class RequestHandler:
     def get_costs_by_one(self) -> int:
         return self.__costs_by_one
 
-    def get_full_available_costs(self) -> int:
+    def get_full_avlble_costs(self) -> int:
         return self.__costs_by_one * self.__days_count
 
     def get_full_name(self) -> str:
@@ -266,7 +267,7 @@ class RequestHandler:
         return date.fromisoformat(self.__booked_date)
 
     def get_book_end_data(self) -> date:
-        return self.get_book_start_date() + timedelta(days = self.__days_count)
+        return self.get_book_start_date() + timedelta(days=self.__days_count)
 
     def get_people_count(self) -> int:
         return self.__people_count
@@ -286,7 +287,7 @@ class RoomSearcher:
         self.__purchase_price = 0
         self.__food_tariff = ""
         self.__max_possible_price = 0
-        self.__min_possible_price = 10**10
+        self.__min_possible_price = 10 ** 10
         self.__request = request
         self.__room_data_base = room_data_base
 
@@ -296,7 +297,7 @@ class RoomSearcher:
         days_count = self.__request.get_days_count()
         people_count = self.__request.get_people_count()
 
-        if self.__request.get_full_available_costs() < self.__min_room_price:
+        if self.__request.get_full_avlble_costs() < self.__min_room_price:
             self.__suitable_room = 0
             self.print_failed_booking()
             return 0
@@ -317,7 +318,7 @@ class RoomSearcher:
                                                                         self.__request.get_book_start_date(),
                                                                         self.__request.get_book_end_data())
 
-                            if self.__request.get_full_available_costs() - self.__min_possible_price >= total_food_price:
+                            if self.__request.get_full_avlble_costs() - self.__min_possible_price >= total_food_price:
                                 report.change_revenue(self.__min_possible_price + total_food_price)
                                 self.__food_tariff = food_tariff
                                 self.print_success_booking(True)
@@ -325,7 +326,7 @@ class RoomSearcher:
                                 report.change_free_rooms_count()
                                 return self.__suitable_room
                     else:
-                        report.change_alternative_costs(self.__request.get_full_available_costs())
+                        report.change_alternative_costs(self.__request.get_full_avlble_costs())
                         self.print_failed_booking(True)
                         return 0
                 else:
@@ -339,7 +340,7 @@ class RoomSearcher:
                     return self.__suitable_room
             else:
                 extra += 1
-        report.change_alternative_costs(self.__request.get_full_available_costs())
+        report.change_alternative_costs(self.__request.get_full_avlble_costs())
         self.print_failed_booking()
         return 0
 
@@ -348,27 +349,30 @@ class RoomSearcher:
             print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} '{self.__request.get_full_name()}' " +
                   f"{ru.DISCOUNT_BOOK} {ru.ROOM_NUMBER}{self.__suitable_room} {ru.FROM} "
                   f"{format_date(self.__request.get_book_start_date())} {ru.TO} " +
-                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS} " +
-                  f"{ru.FOOD_TARIFF} '{self.__food_tariff}'. {ru.REVENUE} {self.__max_possible_price} {ru.CURRENCY}")
+                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()}" +
+                  f"{ru.GUESTS} {ru.FOOD_TARIFF} '{self.__food_tariff}'. {ru.REVENUE} {self.__max_possible_price} " +
+                  f"{ru.CURRENCY}")
         else:
             print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} '{self.__request.get_full_name()}' " +
                   f"{ru.SUCCESS_BOOK} {ru.ROOM_NUMBER}{self.__suitable_room} {ru.FROM} "
                   f"{format_date(self.__request.get_book_start_date())} {ru.TO} " +
-                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS} " +
-                  f"{ru.FOOD_TARIFF} '{self.__food_tariff}'. {ru.REVENUE} {self.__max_possible_price} {ru.CURRENCY}")
+                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()}" +
+                  f"{ru.GUESTS} {ru.FOOD_TARIFF} '{self.__food_tariff}'. {ru.REVENUE} {self.__max_possible_price} " +
+                  f" {ru.CURRENCY}")
         print("-" * 180)
 
     def print_failed_booking(self, answer_is_negative: bool = False):
         if answer_is_negative:
             print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} '{self.__request.get_full_name()}' " +
-                  f"{ru.FAIL}{self.__suitable_room} {ru.FROM} {format_date(self.__request.get_book_start_date())} {ru.TO} " +
-                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS}. " +
-                  f"{ru.REVENUE} {self.__request.get_full_available_costs()} {ru.CURRENCY}")
+                  f"{ru.FAIL} {self.__suitable_room} {ru.FROM} {format_date(self.__request.get_book_start_date())}" +
+                  f"{ru.TO} {format_date(self.__request.get_book_end_data())} " +
+                  f"{ru.ON} {self.__request.get_people_count()} {ru.GUESTS}. " +
+                  f"{ru.REVENUE} {self.__request.get_full_avlble_costs()} {ru.CURRENCY}")
         else:
             print(f"{format_date(self.__request.get_booking_date())}: {ru.CLIENT} '{self.__request.get_full_name()}' " +
                   f"{ru.CANNOT_BOOK} {ru.FROM} {format_date(self.__request.get_book_start_date())} {ru.TO} " +
-                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} {ru.GUESTS}. " +
-                  f"{ru.LOST_REVENUE} {self.__request.get_full_available_costs()} {ru.CURRENCY}")
+                  f"{format_date(self.__request.get_book_end_data())} {ru.ON} {self.__request.get_people_count()} " +
+                  f" {ru.GUESTS}. {ru.LOST_REVENUE} {self.__request.get_full_avlble_costs()} {ru.CURRENCY}")
         print("-" * 180)
 
     def __compare_people_count(self, days_count, people_count, extra, room):
@@ -389,14 +393,14 @@ class RoomSearcher:
                 price = room_prices[food_tariff]
 
                 if extra == 0:
-                    if price <= self.__request.get_full_available_costs():
+                    if price <= self.__request.get_full_avlble_costs():
 
                         if self.__max_possible_price < price:
                             self.__suitable_room = room.get_number()
                             self.__max_possible_price = price
                             self.__food_tariff = food_tariff
                 else:
-                    if price <= self.__request.get_full_available_costs():
+                    if price <= self.__request.get_full_avlble_costs():
 
                         if self.__min_possible_price > price:
                             self.__suitable_room = room.get_number()
